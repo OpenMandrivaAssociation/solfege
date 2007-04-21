@@ -1,6 +1,6 @@
 %define name	solfege
-%define version 3.0.6
-%define release %mkrel 3
+%define version 3.6.5
+%define release %mkrel 1
 
 Name: 	 	%{name}
 Summary: 	An ear-training program
@@ -18,7 +18,7 @@ BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	swig-devel python-devel
 BuildRequires:	pkgconfig gettext texinfo
 BuildRequires:  gnome-python
-BuildRequires:  docbook-style-xsl
+BuildRequires:  docbook-style-xsl libxslt-proc
 BuildRequires:  pygtk2.0-devel desktop-file-utils
 Requires:	pygtk2.0 swig
 Requires:	gnome-python gnome-python-gtkhtml2 gnome-python-gnomevfs
