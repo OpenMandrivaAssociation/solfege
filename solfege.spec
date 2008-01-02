@@ -15,6 +15,7 @@ Patch0:		solfege-fix-desktop.patch
 URL:		http://solfege.sourceforge.net
 License:	GPL
 Group:		Sound
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	swig-devel python-devel
 BuildRequires:	pkgconfig gettext texinfo
 BuildRequires:  gnome-python
