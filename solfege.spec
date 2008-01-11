@@ -50,10 +50,6 @@ rm -rf $RPM_BUILD_ROOT
 %makeinstall
 
 # menu
-mkdir -p $RPM_BUILD_ROOT%{_menudir}
-cat << EOF > $RPM_BUILD_ROOT%{_menudir}/%{name}
-?package(%{name}): command="%{name}" icon="%{name}.png" needs="x11" title="Solfege" longtitle="Ear Training" section="Multimedia/Sound" xdg="true"
-EOF
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
@@ -88,7 +84,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/sol*
 %{_mandir}/man1/*
-%{_menudir}/%name
 %{_libdir}/%name
 %{_datadir}/applications/*.desktop
 %{_datadir}/pixmaps/*.png
