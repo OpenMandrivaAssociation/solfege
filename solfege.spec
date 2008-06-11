@@ -1,13 +1,13 @@
 %define name	solfege
-%define version 3.6.5
-%define release %mkrel 2
+%define version 3.10.4
+%define release %mkrel 1
 
 Name: 	 	%{name}
 Summary: 	An ear-training program
 Version: 	%{version}
 Release: 	%{release}
 
-Source:		http://prdownloads.sourceforge.net/solfege/%{name}-%{version}.tar.bz2
+Source:		http://prdownloads.sourceforge.net/solfege/%{name}-%{version}.tar.gz
 Source1: 	%{name}48.png
 Source2: 	%{name}32.png
 Source3: 	%{name}16.png
