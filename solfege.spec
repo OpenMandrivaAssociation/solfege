@@ -72,11 +72,15 @@ cat %name-intervallnames.lang >> %name.lang
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%if %mdkversion < 200900
 %post
 %update_menus
+%endif
 		
+%if %mdkversion < 200900
 %postun
 %clean_menus
+%endif
 
 %files -f %name.lang
 %defattr(-,root,root)
