@@ -1,6 +1,6 @@
 %define name	solfege
 %define version 3.10.4
-%define release %mkrel 1
+%define release %mkrel 2
 
 Name: 	 	%{name}
 Summary: 	An ear-training program
@@ -23,6 +23,7 @@ BuildRequires:  docbook-style-xsl libxslt-proc
 BuildRequires:  pygtk2.0-devel desktop-file-utils
 Requires:	pygtk2.0 swig
 Requires:	gnome-python gnome-python-gtkhtml2 gnome-python-gnomevfs
+Requires:	TiMidity++
 
 %description
 GNU Solfege is an ear-training program. These are the exercises written so far:
