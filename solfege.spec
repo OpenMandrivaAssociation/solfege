@@ -16,7 +16,7 @@ URL:		http://solfege.sourceforge.net
 License:	GPL
 Group:		Sound
 BuildRoot:	%{_tmppath}/%{name}-buildroot
-BuildRequires:	swig-devel python-devel
+BuildRequires:	swig python-devel
 BuildRequires:	pkgconfig gettext texinfo
 BuildRequires:  gnome-python
 BuildRequires:  docbook-style-xsl libxslt-proc
