@@ -12,11 +12,12 @@ Source1: 	%{name}48.png
 Source2: 	%{name}32.png
 Source3: 	%{name}16.png
 Patch0:		solfege-fix-desktop.patch
-URL:		http://solfege.sourceforge.net
-License:	GPL
+URL:		http://www.solfege.org/
+License:	GPLv3+
 Group:		Sound
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	swig python-devel
+BuildRequires:	txt2man
 BuildRequires:	pkgconfig gettext texinfo
 BuildRequires:  gnome-python
 BuildRequires:  docbook-style-xsl libxslt-proc
