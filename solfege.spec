@@ -1,6 +1,6 @@
 %define name	solfege
-%define version 3.14.3
-%define release %mkrel 2
+%define version 3.14.4
+%define release %mkrel 1
 
 Name: 	 	%{name}
 Summary: 	An ear-training program
