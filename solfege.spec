@@ -1,6 +1,6 @@
 %define name	solfege
 %define version 3.15.8
-%define release %mkrel 1
+%define release %mkrel 2 
 
 Name: 	 	%{name}
 Summary: 	An ear-training program
@@ -12,7 +12,6 @@ Source1: 	%{name}48.png
 Source2: 	%{name}32.png
 Source3: 	%{name}16.png
 Patch0:		solfege-fix-desktop.patch
-Patch1:		solfege-3.14.3-use-timidity-by-default.patch
 URL:		http://www.solfege.org/
 License:	GPLv3+
 Group:		Sound
@@ -42,7 +41,6 @@ GNU Solfege is an ear-training program. These are the exercises written so far:
 %setup -q
 # (tv) fix desktop entry so that desktop-file-install doesn't delete it:
 %patch0 -p0
-#%patch1 -p0
 
 %build
 FILE=$(ls %_datadir/sgml/docbook/xsl-stylesheets-1.*/html/chunk.xsl)
