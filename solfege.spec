@@ -1,5 +1,5 @@
 %define name	solfege
-%define version 3.14.11
+%define version 3.15.8
 %define release %mkrel 1
 
 Name: 	 	%{name}
@@ -42,7 +42,7 @@ GNU Solfege is an ear-training program. These are the exercises written so far:
 %setup -q
 # (tv) fix desktop entry so that desktop-file-install doesn't delete it:
 %patch0 -p0
-%patch1 -p0
+#%patch1 -p0
 
 %build
 FILE=$(ls %_datadir/sgml/docbook/xsl-stylesheets-1.*/html/chunk.xsl)
@@ -85,7 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %files -f %name.lang
-%defattr(-,root,root)
+%defattr(-,root root)
 %doc README COPYING AUTHORS ChangeLog FAQ 
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/sol*
