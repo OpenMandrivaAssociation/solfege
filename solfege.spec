@@ -1,5 +1,5 @@
 %define name	solfege
-%define version 3.16.0
+%define version 3.16.1
 %define release %mkrel 1
 
 Name: 	 	%{name}
