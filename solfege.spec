@@ -56,8 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
-  --add-category="AudioVideo;Audio" \
-  --add-category="X-MandrivaLinux-Multimedia-Sound" \
+  --add-category="GTK" \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
 
 # icons
