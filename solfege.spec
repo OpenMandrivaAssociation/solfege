@@ -1,5 +1,5 @@
 %define name	solfege
-%define version 3.18.5
+%define version 3.18.6
 %define release %mkrel 1
 
 Name: 	 	%{name}
@@ -50,7 +50,7 @@ FILE=$(ls %_datadir/sgml/docbook/xsl-stylesheets-1.*/html/chunk.xsl)
 										
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall
+%makeinstall_std
 
 # menu
 
