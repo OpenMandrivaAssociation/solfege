@@ -10,8 +10,7 @@ Source:		http://download.sourceforge.net/solfege/%{name}-%{version}.tar.gz
 Source1: 	%{name}48.png
 Source2: 	%{name}32.png
 Source3: 	%{name}16.png
-Patch0:		solfege-fix-desktop.patch
-Patch1:		solfege-3.18.4-link.patch
+Patch1:		solfege-3.20.0-link.patch
 URL:		http://www.solfege.org/
 License:	GPLv3+
 Group:		Sound
@@ -39,8 +38,6 @@ GNU Solfege is an ear-training program. These are the exercises written so far:
 
 %prep
 %setup -q
-# (tv) fix desktop entry so that desktop-file-install doesn't delete it:
-%patch0 -p0
 %patch1 -p0
 
 %build
@@ -90,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %{_libdir}/%name
 %{_datadir}/applications/*.desktop
-%{_datadir}/pixmaps/*.png
+%{_datadir}/pixmaps/*.svg
 %{_datadir}/%name
 %{_liconsdir}/%name.png
 %{_iconsdir}/%name.png
