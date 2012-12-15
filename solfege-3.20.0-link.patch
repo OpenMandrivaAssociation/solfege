@@ -1,5 +1,5 @@
---- solfege/soundcard/Makefile.link	2011-06-19 12:30:53.000000000 +0200
-+++ solfege/soundcard/Makefile	2011-06-19 12:31:27.000000000 +0200
+--- ./solfege/soundcard/Makefile.link	2011-06-19 12:30:53.000000000 +0200
++++ ./solfege/soundcard/Makefile	2011-06-19 12:31:27.000000000 +0200
 @@ -50,10 +50,10 @@
  endif
  
