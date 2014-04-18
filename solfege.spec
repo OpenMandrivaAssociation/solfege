@@ -1,18 +1,16 @@
 Summary: 	An ear-training program
 Name: 	 	solfege
-Version: 	3.20.7
+Version: 	3.22.2
 Release: 	1
 License:	GPLv3+
 Group:		Sound
 URL:		http://www.solfege.org/
-Source0:	http://ftp.gnu.org/gnu/solfege/%{name}-%{version}.tar.xz
-Source1:	http://ftp.gnu.org/gnu/solfege/%{name}-%{version}.tar.xz.sig
+Source0:	http://ftp.gnu.org/gnu/solfege/%{name}-%{version}.tar.gz
 Patch1:		solfege-3.20.0-link.patch
 
 BuildRequires:	desktop-file-utils
 BuildRequires:  docbook-style-xsl
 BuildRequires:	gettext
-BuildRequires:  gnome-python
 BuildRequires:	swig
 BuildRequires:	texinfo
 BuildRequires:	txt2man
@@ -22,9 +20,6 @@ BuildRequires:  pkgconfig(pygtk-2.0)
 
 Requires:	pygtk2.0
 Requires:	swig
-Requires:	gnome-python
-Requires:	gnome-python-gtkhtml2
-Requires:	gnome-python-gnomevfs
 Requires:	TiMidity++
 
 %description

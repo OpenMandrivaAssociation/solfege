@@ -1,2 +1,4 @@
+removed_sources:
+  solfege-3.20.1.tar.gz: bc0c392973ce9f6553bea45270cab080f762ae6f
 sources:
-  "solfege-3.20.1.tar.gz": bc0c392973ce9f6553bea45270cab080f762ae6f
+  solfege-3.22.2.tar.gz: c197e04ca2e028e84238c63bcf1f6777bb513044
