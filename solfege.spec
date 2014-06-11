@@ -1,7 +1,7 @@
 Summary: 	An ear-training program
 Name: 	 	solfege
 Version: 	3.22.2
-Release: 	1
+Release: 	2
 License:	GPLv3+
 Group:		Sound
 URL:		http://www.solfege.org/
