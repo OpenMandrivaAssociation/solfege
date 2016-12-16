@@ -1,10 +1,10 @@
 Summary: 	An ear-training program
 Name: 	 	solfege
 Version: 	3.22.2
-Release: 	3
+Release: 	4
 License:	GPLv3+
 Group:		Sound
-URL:		http://www.solfege.org/
+URL:		https://www.gnu.org/software/solfege/solfege.html
 Source0:	http://ftp.gnu.org/gnu/solfege/%{name}-%{version}.tar.gz
 Patch1:		solfege-3.20.0-link.patch
 
@@ -15,7 +15,7 @@ BuildRequires:	swig
 BuildRequires:	texinfo
 BuildRequires:	txt2man
 BuildRequires:	xsltproc
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python2)
 BuildRequires:  pkgconfig(pygtk-2.0)
 
 Requires:	pygtk2.0
@@ -39,6 +39,7 @@ GNU Solfege is an ear-training program. These are the exercises written so far:
 
 %build
 FILE=$(ls %_datadir/sgml/docbook/xsl-stylesheets-1.*/html/chunk.xsl)
+export PYTHON=python2
 %configure2_5x \
 	--enable-docbook-stylesheet=$FILE
 
