@@ -1,7 +1,7 @@
 Summary: 	An ear-training program
 Name: 	 	solfege
 Version: 	3.22.2
-Release: 	4
+Release: 	5
 License:	GPLv3+
 Group:		Sound
 URL:		https://www.gnu.org/software/solfege/solfege.html
@@ -39,7 +39,7 @@ GNU Solfege is an ear-training program. These are the exercises written so far:
 
 %build
 FILE=$(ls %_datadir/sgml/docbook/xsl-stylesheets-1.*/html/chunk.xsl)
-export PYTHON=python2
+export PYTHON=%__python2
 %configure2_5x \
 	--enable-docbook-stylesheet=$FILE
 
