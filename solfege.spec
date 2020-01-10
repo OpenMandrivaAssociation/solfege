@@ -35,7 +35,7 @@ GNU Solfege is an ear-training program. These are the exercises written so far:
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 
 %build
 FILE=$(ls %_datadir/sgml/docbook/xsl-stylesheets-1.*/html/chunk.xsl)
