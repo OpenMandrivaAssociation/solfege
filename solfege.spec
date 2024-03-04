@@ -10,6 +10,7 @@ Patch1:		solfege-3.20.0-link.patch
 Patch2:		solfege-fix-python-version-detection.patch
 Patch3:		solfege-3.23.4-usrmove.patch
 Patch4:		solfege-3.23.4-py3-webbrowser.patch
+Patch5:		solfege-3.23.4-texinfo-non-utf8-input-fix.patch
 
 BuildRequires:	desktop-file-utils
 BuildRequires:  docbook-style-xsl

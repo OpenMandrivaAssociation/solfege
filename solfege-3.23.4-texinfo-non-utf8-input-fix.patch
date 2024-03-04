@@ -1,0 +1,52 @@
+diff -Nrup a/topdocs/AUTHORS.texi b/topdocs/AUTHORS.texi
+--- a/topdocs/AUTHORS.texi	2016-06-24 22:18:29.000000000 +0200
++++ b/topdocs/AUTHORS.texi	2020-02-16 21:06:20.779710155 +0100
+@@ -1,4 +1,5 @@
+ \input texinfo
++@documentencoding ISO-8859-1
+ @setfilename AUTHORS.info
+ @settitle AUTHORS
+ @node Top, , , (dir)
+diff -Nrup a/topdocs/defs.texi.in b/topdocs/defs.texi.in
+--- a/topdocs/defs.texi.in	2016-06-24 22:18:29.000000000 +0200
++++ b/topdocs/defs.texi.in	2020-02-16 20:50:27.592458437 +0100
+@@ -1,2 +1,3 @@
+ @set SOLFEGEVERSION @MAJOR_VERSION@.@MINOR_VERSION@.@PATCH_LEVEL@
+ @set SOLFEGESHORTVERSION @MAJOR_VERSION@.@MINOR_VERSION@
++@documentencoding ISO-8859-1
+diff -Nrup a/topdocs/FAQ.texi b/topdocs/FAQ.texi
+--- a/topdocs/FAQ.texi	2016-06-24 22:18:29.000000000 +0200
++++ b/topdocs/FAQ.texi	2020-02-16 21:06:51.325942599 +0100
+@@ -1,4 +1,5 @@
+ \input texinfo
++@documentencoding ISO-8859-1
+ @setfilename FAQ.info
+ @settitle FAQ
+ @node Top, , , (dir)
+diff -Nrup a/topdocs/INSTALL.texi b/topdocs/INSTALL.texi
+--- a/topdocs/INSTALL.texi	2016-06-24 22:18:29.000000000 +0200
++++ b/topdocs/INSTALL.texi	2020-02-16 21:07:00.341011198 +0100
+@@ -1,4 +1,5 @@
+ \input texinfo @c vim: set textwidth=72:
++@documentencoding ISO-8859-1
+ @setfilename INSTALL.info
+ @include topdocs/defs.texi
+ @settitle INSTALL
+diff -Nrup a/topdocs/INSTALL.win32.texi b/topdocs/INSTALL.win32.texi
+--- a/topdocs/INSTALL.win32.texi	2016-06-24 22:18:29.000000000 +0200
++++ b/topdocs/INSTALL.win32.texi	2020-02-16 21:07:24.057191671 +0100
+@@ -1,4 +1,5 @@
+ \input texinfo @c
++@documentencoding ISO-8859-1
+ @setfilename INSTALL.win32.info
+ @include topdocs/defs.texi
+ @settitle INSTALL.win32
+diff -Nrup a/topdocs/README.texi b/topdocs/README.texi
+--- a/topdocs/README.texi	2016-06-24 22:18:29.000000000 +0200
++++ b/topdocs/README.texi	2020-02-16 21:07:08.264071487 +0100
+@@ -1,4 +1,5 @@
+ \input texinfo
++@documentencoding ISO-8859-1
+ @setfilename README.info
+ @include topdocs/defs.texi
+ @settitle README
