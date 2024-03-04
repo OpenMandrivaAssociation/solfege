@@ -20,6 +20,7 @@ BuildRequires:	txt2man
 BuildRequires:	xsltproc
 BuildRequires:	pkgconfig(python3)
 BuildRequires:  python-gobject3
+BuildRequires:	locales-extra-charsets
 
 Requires:	python-gobject3
 Requires:	swig
