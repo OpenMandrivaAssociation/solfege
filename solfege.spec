@@ -21,6 +21,7 @@ BuildRequires:	txt2man
 BuildRequires:	xsltproc
 BuildRequires:	pkgconfig(python3)
 BuildRequires:  python-gobject3
+BuildRequires:	python-gi
 BuildRequires:	locales-extra-charsets
 
 Requires:	python-gobject3
