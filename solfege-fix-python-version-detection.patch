@@ -1,0 +1,12 @@
+--- solfege-3.23.4/configure	2022-03-09 21:50:02.711654479 +0100
++++ solfege-mod/configure	2022-03-09 22:39:38.861659489 +0100
+@@ -3017,7 +3017,7 @@
+ if ${am_cv_python_version+:} false; then :
+   $as_echo_n "(cached) " >&6
+ else
+-  am_cv_python_version=`$PYTHON -c "import sys; sys.stdout.write(sys.version[:3])"`
++  am_cv_python_version=`$PYTHON -c "import sys; sys.stdout.write( '.'.join(sys.version.split('.')[0:2]))"`
+ fi
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $am_cv_python_version" >&5
+ $as_echo "$am_cv_python_version" >&6; }
+

@@ -1,0 +1,13 @@
+diff --git a/run-solfege.py.in b/run-solfege.py.in
+index d7fbb4c..8cfd17b 100644
+--- a/run-solfege.py.in
++++ b/run-solfege.py.in
+@@ -26,7 +26,7 @@ builtins.__dict__['start_time'] = time.time()
+ import sys
+ import os
+ 
+-prefix =  os.path.split(os.path.dirname(os.path.abspath(sys.argv[0])))[0]
++prefix =  os.path.split(os.path.dirname(os.path.realpath(sys.argv[0])))[0]
+ if sys.platform == 'win32':
+     s = os.path.normpath(prefix)
+ os.chdir(os.path.join(prefix, "share", "solfege"))

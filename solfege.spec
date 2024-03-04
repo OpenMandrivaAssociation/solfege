@@ -1,12 +1,15 @@
 Summary: 	An ear-training program
 Name: 	 	solfege
-Version: 	3.22.2
-Release: 	5
+Version: 	3.23.4
+Release: 	1
 License:	GPLv3+
 Group:		Sound
 URL:		https://www.gnu.org/software/solfege/solfege.html
-Source0:	http://ftp.gnu.org/gnu/solfege/%{name}-%{version}.tar.gz
+Source0:	http://alpha.gnu.org/gnu/solfege/%{name}-%{version}.tar.gz
 Patch1:		solfege-3.20.0-link.patch
+Patch2:		solfege-fix-python-version-detection.patch
+Patch3:		solfege-3.23.4-usrmove.patch
+Patch4:		solfege-3.23.4-py3-webbrowser.patch
 
 BuildRequires:	desktop-file-utils
 BuildRequires:  docbook-style-xsl
@@ -15,10 +18,10 @@ BuildRequires:	swig
 BuildRequires:	texinfo
 BuildRequires:	txt2man
 BuildRequires:	xsltproc
-BuildRequires:	pkgconfig(python2)
-BuildRequires:  pkgconfig(pygtk-2.0)
+BuildRequires:	pkgconfig(python3)
+BuildRequires:  python-gobject3
 
-Requires:	pygtk2.0
+Requires:	python-gobject3
 Requires:	swig
 Requires:	TiMidity++
 
@@ -39,14 +42,13 @@ GNU Solfege is an ear-training program. These are the exercises written so far:
 
 %build
 FILE=$(ls %_datadir/sgml/docbook/xsl-stylesheets-1.*/html/chunk.xsl)
-export PYTHON=%__python2
-%configure2_5x \
+%configure \
 	--enable-docbook-stylesheet=$FILE
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%makeinstall
 
 # menu
 desktop-file-install --vendor="" \
@@ -58,7 +60,7 @@ desktop-file-install --vendor="" \
 %find_lang %{name}
 
 %files -f %{name}.lang
-%doc README COPYING AUTHORS ChangeLog FAQ 
+%doc README COPYING AUTHORS FAQ 
 %config(noreplace) %{_sysconfdir}/sol*
 %{_bindir}/*
 %{_libdir}/%{name}

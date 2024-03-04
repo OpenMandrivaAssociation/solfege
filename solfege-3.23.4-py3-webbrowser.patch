@@ -1,0 +1,12 @@
+diff --git a/solfege/mainwin.py b/solfege/mainwin.py
+index 5493f45..ce2e6cb 100644
+--- a/solfege/mainwin.py
++++ b/solfege/mainwin.py
+@@ -25,6 +25,7 @@ import textwrap
+ # debian etch system, the browser does will freeze solfege until
+ # I close the browser window.
+ try:
++    webbrowser.get()
+     i = webbrowser._tryorder.index("x-www-browser")
+     webbrowser._tryorder.append(webbrowser._tryorder[i])
+     del webbrowser._tryorder[i]
