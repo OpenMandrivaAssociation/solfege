@@ -1,0 +1,483 @@
+diff -rupN solfege-3.23.4.old/solfege/cfg.py solfege-3.23.4/solfege/cfg.py
+--- solfege-3.23.4.old/solfege/cfg.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/cfg.py	2025-08-11 18:42:29.334859943 +0200
+@@ -84,9 +84,9 @@ import re
+ from solfege import filesystem
+ 
+ # match both "section-name" and "user:dir/module"
+-section_re = re.compile("^\[([\w\:\/-_]*?)\]")
+-value_re = re.compile("^([\w-]*?)=(.*)")
+-comment_re = re.compile("#.*")
++section_re = re.compile(r"^\[([\w\:\/-_]*?)\]")
++value_re = re.compile(r"^([\w-]*?)=(.*)")
++comment_re = re.compile(r"#.*")
+ 
+ _blocked_watches = {}
+ _watches = {}
+diff -rupN solfege-3.23.4.old/solfege/dataparser.py solfege-3.23.4/solfege/dataparser.py
+--- solfege-3.23.4.old/solfege/dataparser.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/dataparser.py	2025-08-11 18:44:06.252641607 +0200
+@@ -57,7 +57,7 @@ FLOAT = 'FLOAT'
+ CHAR = 'CHAR'
+ EOF = 'EOF'
+ 
+-NEW_re = re.compile("""(?:
++NEW_re = re.compile(r"""(?:
+                         (\s+)|  #space
+                         (\#.*?$)| #comment
+                         (-?\d+\.\d+) | #float
+@@ -227,7 +227,7 @@ def read_encoding_marker_from_string(str
+     the encoding marker must be in the first two lines
+     Return None if no encoding marker found
+     """
+-    r = re.compile("#.*?coding\s*[:=]\s*([\w_.-]+)")
++    r = re.compile(r"#.*?coding\s*[:=]\s*([\w_.-]+)")
+     c = 0
+     for line in string.split("\n"):
+         m = r.match(line)
+@@ -244,7 +244,7 @@ def read_encoding_marker_from_file(filen
+     the encoding marker must be in the first two lines
+     Return None if no encoding marker found
+     """
+-    r = re.compile(b"#.*?coding\s*[:=]\s*([\w_.-]+)")
++    r = re.compile(br"#.*?coding\s*[:=]\s*([\w_.-]+)")
+     with open(filename, 'br') as f:
+         line = f.readline()
+         m = r.match(line)
+@@ -400,7 +400,7 @@ class Dataparser:
+ 
+     def __init__(self):
+         self.m_filename = None
+-        self.m_translation_re = re.compile("(?P<varname>\w+)\[(?P<lang>[\w_+]+)\]")
++        self.m_translation_re = re.compile(r"(?P<varname>\w+)\[(?P<lang>[\w_+]+)\]")
+ 
+     def parse_file(self, filename):
+         """We always construct a new parser if we want to parse another
+diff -rupN solfege-3.23.4.old/solfege/filesystem.py solfege-3.23.4/solfege/filesystem.py
+--- solfege-3.23.4.old/solfege/filesystem.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/filesystem.py	2025-08-11 18:44:39.299201024 +0200
+@@ -74,7 +74,7 @@ def get_home_dir():
+ 
+ def win32_program_files_folder():
+     """
+-    Return the name of the C:\Program files folder.
++    Return the name of the C:\\Program files folder.
+     """
+     return mywinreg._get_reg_value(winreg.HKEY_LOCAL_MACHINE,
+         r"SOFTWARE\Microsoft\Windows\CurrentVersion", r"ProgramFilesDir")
+diff -rupN solfege-3.23.4.old/solfege/gu.py solfege-3.23.4/solfege/gu.py
+--- solfege-3.23.4.old/solfege/gu.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/gu.py	2025-08-11 18:45:35.976985562 +0200
+@@ -358,7 +358,7 @@ class FlashBar(Gtk.Frame):
+ 
+     def display(self, txt, **kwargs):
+         self.empty()
+-        r = re.compile("(\{\w+\})")  # Unicode??
++        r = re.compile(r"(\{\w+\})")  # Unicode??
+         self.set_size_request(-1, -1)
+         for child in r.split(txt):
+             m = r.match(child)
+@@ -556,9 +556,9 @@ class HarmonicProgressionLabel(AlignedHB
+         self.set_alignment(self.m_xalign, self.m_yalign)
+ 
+     def get_next_token(self):
+-        m_re1 = re.compile("([^\(]+)", re.UNICODE)
+-        m_re2 = re.compile("\((\w*),\s*(\w*)\)", re.UNICODE)
+-        m_re3 = re.compile("\((\w*)\)", re.UNICODE)
++        m_re1 = re.compile(r"([^\(]+)", re.UNICODE)
++        m_re2 = re.compile(r"\((\w*),\s*(\w*)\)", re.UNICODE)
++        m_re3 = re.compile(r"\((\w*)\)", re.UNICODE)
+         m1 = m_re1.match(self.m_str)
+         m2 = m_re2.match(self.m_str)
+         m3 = m_re3.match(self.m_str)
+diff -rupN solfege-3.23.4.old/solfege/lessonfile.py solfege-3.23.4/solfege/lessonfile.py
+--- solfege-3.23.4.old/solfege/lessonfile.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/lessonfile.py	2025-08-11 20:19:54.003948771 +0200
+@@ -231,9 +231,9 @@ lessonfile_builtins = {
+ 
+ def rnc_markup_tokenizer(s):
+     """
+-    [rn][mod1][num][\s-]
++    [rn][mod1][num][\\s-]
+     """
+-    rn_re = re.compile("""(?P<p1>[b♭♯#]?[ivIV]+)
++    rn_re = re.compile(r"""(?P<p1>[b♭♯#]?[ivIV]+)
+                           (?P<p2>[^\d\s-]*)
+                           (?P<p3>[^\s-]*)
+                           (?P<sep>(\s*-\s*|\s*))""",
+@@ -261,7 +261,7 @@ def chordname_markup_tokenizer(s):
+     cm:9
+     c:11b9/g
+     """
+-    r = re.compile("""(?P<nn>[cdefgab](es|is)*)
++    r = re.compile(r"""(?P<nn>[cdefgab](es|is)*)
+                 (?P<txt1>.*?)
+                 (:
+                  (?P<sup>.*?))?
+@@ -400,7 +400,7 @@ class MpdParsable(MusicBaseClass):
+         """
+         This functions expect exception.m_lineno, .m_linepos1 and .m_linepos2
+         to be set relative to the m_musicdata of the music object,
+-        and not relative to the complete mpd string with added \staff{ } etc.
++        and not relative to the complete mpd string with added \\staff{ } etc.
+ 
+         Return a twoline string showing what caused the exception.
+         """
+@@ -740,7 +740,7 @@ class Rvoice(VoiceCommon):
+         """
+         This functions expect exception.m_lineno, .m_linepos1 and .m_linepos2
+         to be set relative to the m_musicdata of the music object,
+-        and not relative to the complete mpd string with added \staff{ } etc.
++        and not relative to the complete mpd string with added \\staff{ } etc.
+ 
+         Return a twoline string showing what caused the exception.
+ 
+@@ -779,10 +779,10 @@ class Satb(ChordCommon):
+         if 'key' in lessonfile_ref.get_question():
+             k = lessonfile_ref.get_question()['key']
+         else:
+-            k = "c \major"
+-        music = "\\staff{ \key %s\\stemUp <%s> }\n" \
++            k = "c \\major"
++        music = "\\staff{ \\key %s\\stemUp <%s> }\n" \
+                 "\\addvoice{ \\stemDown <%s> }\n" \
+-                "\\staff{ \key %s\\clef bass \\stemUp <%s>}\n"\
++                "\\staff{ \\key %s\\clef bass \\stemUp <%s>}\n"\
+                 "\\addvoice{ \\stemDown <%s>}" % (k, v[0], v[1], k, v[2], v[3])
+         if lessonfile_ref.header.random_transpose[0]:
+             music = music.replace(r"\staff",
+@@ -1021,7 +1021,7 @@ class Music(MpdTransposable):
+         """
+         Return a twoline string showing what caused the exception.
+         This method will report wrong error location if there are
+-        more than one \staff command in a line.
++        more than one \\staff command in a line.
+         """
+         first = exception.m_linepos1
+         last = exception.m_linepos2
+@@ -1059,7 +1059,7 @@ class Music3(Music):
+ 
+ 
+ def parse_test_def(s):
+-    m = re.match("(\d+)\s*x", s)
++    m = re.match(r"(\d+)\s*x", s)
+     count = int(m.groups()[0])
+     return (count, 'x')
+ 
+@@ -1074,7 +1074,7 @@ class LessonfileCommon(object):
+         self.m_location = "."
+         self._idx = None
+         self.m_filename = "<STRING>"
+-        self.m_translation_re = re.compile("(?P<varname>\w+)\[(?P<lang>[\w_+]+)\]")
++        self.m_translation_re = re.compile(r"(?P<varname>\w+)\[(?P<lang>[\w_+]+)\]")
+         if module_predefs is None:
+             self.m_module_predefs = {}
+         else:
+@@ -1230,7 +1230,7 @@ class QuestionsLessonfile(LessonfileComm
+         if 'key' in self.m_questions[self._idx]:
+             key = self.m_questions[self._idx]['key']
+         else:
+-            key = "c \major"
++            key = "c \\major"
+         if self.header.random_transpose[0] == True:
+             self.header.random_transpose = ['key', -5, 5]
+         if self.header.random_transpose[0] in ('semitones', 'atonal'):
+@@ -1256,7 +1256,7 @@ class QuestionsLessonfile(LessonfileComm
+         Called to create random transposition in "accidentals" or "key" mode.
+         Create and return a random MusicalPitch representing this transposition.
+         Keyword arguments:
+-        key -- the key the question is written in, for example "c \major"
++        key -- the key the question is written in, for example "c \\major"
+         """
+         assert self.header.random_transpose[0] in ('key', 'accidentals')
+         low, high = self.header.random_transpose[1:3]
+@@ -1522,7 +1522,7 @@ class TestSupport(object):
+         Return the amount of exercises that has to be correct to
+         pass the test. (values 0.0 to 1.0)
+         """
+-        m = re.match("([\d\.]+)%", self.header.test_requirement)
++        m = re.match(r"([\d\.]+)%", self.header.test_requirement)
+         if m:
+             return float(m.groups()[0]) / 100.0
+         else:
+@@ -2103,7 +2103,7 @@ def parse_lesson_file_header(filename):
+ 
+     Return None if we find no header block.
+     """
+-    r = re.compile("header\s*{.*?}", re.MULTILINE | re.DOTALL)
++    r = re.compile(r"header\s*{.*?}", re.MULTILINE | re.DOTALL)
+     # We cannot read the whole file, since we don't know what the user
+     # have placed in the directory. It could be a whole DVD iso image.
+     # The actual size we read, 40k, is mentioned in the user manual,
+diff -rupN solfege-3.23.4.old/solfege/lfmod.py solfege-3.23.4/solfege/lfmod.py
+--- solfege-3.23.4.old/solfege/lfmod.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/lfmod.py	2025-08-11 20:20:18.612602713 +0200
+@@ -42,7 +42,7 @@ class LfMod(object):
+         pprint.pprint(self.m_blocklists)
+         print("--------")
+ 
+-translation_re = re.compile("(?P<varname>\w+)\[(?P<lang>[\w_+]+)\]")
++translation_re = re.compile(r"(?P<varname>\w+)\[(?P<lang>[\w_+]+)\]")
+ 
+ 
+ def do_assignment(mod, statement, local_namespace, global_namespace, in_header,
+diff -rupN solfege-3.23.4.old/solfege/mpd/duration.py solfege-3.23.4/solfege/mpd/duration.py
+--- solfege-3.23.4.old/solfege/mpd/duration.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/mpd/duration.py	2025-08-11 20:21:01.519526009 +0200
+@@ -37,7 +37,7 @@ class Duration:
+ 
+     class BadStringException(Exception):
+         pass
+-    tre = re.compile("^(\d+)(\.*)$")
++    tre = re.compile(r"^(\d+)(\.*)$")
+ 
+     def __init__(self, nh, dots, tuplet=Rat(1, 1)):
+         """
+diff -rupN solfege-3.23.4.old/solfege/mpd/elems.py solfege-3.23.4/solfege/mpd/elems.py
+--- solfege-3.23.4.old/solfege/mpd/elems.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/mpd/elems.py	2025-08-11 20:21:26.569926321 +0200
+@@ -78,7 +78,7 @@ class Clef(object):
+        'mezzosoprano': ('C', 2, -2),
+             'soprano': ('C', 1, -4),
+     }
+-    octaviation_re = re.compile("(?P<name>[A-Za-z1-9]+)(?P<oct>([_^])(8|15))?$")
++    octaviation_re = re.compile(r"(?P<name>[A-Za-z1-9]+)(?P<oct>([_^])(8|15))?$")
+ 
+     def __init__(self, clefname):
+         m = self.octaviation_re.match(clefname)
+diff -rupN solfege-3.23.4.old/solfege/mpd/interval.py solfege-3.23.4/solfege/mpd/interval.py
+--- solfege-3.23.4.old/solfege/mpd/interval.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/mpd/interval.py	2025-08-11 20:22:09.143877448 +0200
+@@ -296,7 +296,7 @@ class Interval:
+             s = s[1:]
+         else:
+             self.m_dir = 1
+-        m = re.match("(m|M|d|a|p)(\d+)", s)
++        m = re.match(r"(m|M|d|a|p)(\d+)", s)
+         if not m:
+             raise InvalidIntervalnameException(s_orig)
+         modifier, i = m.groups()
+diff -rupN solfege-3.23.4.old/solfege/mpd/mpdutils.py solfege-3.23.4/solfege/mpd/mpdutils.py
+--- solfege-3.23.4.old/solfege/mpd/mpdutils.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/mpd/mpdutils.py	2025-08-11 20:22:43.587626729 +0200
+@@ -79,7 +79,7 @@ def find_possible_first_note(music):
+     re_time = re.compile(r"\\time\s+(\d+)\s*/\s*(\d+)", re.UNICODE)
+     re_times = re.compile(r"\\times\s+(\d+)\s*/\s*(\d+)\s*{", re.UNICODE)
+     re_key = re.compile(r"\\key\s+([a-z]+)\s*\\(major|minor)", re.UNICODE)
+-    re_note = re.compile("(?P<beamstart>(\[\s*)?)(?P<chordstart>(\<\s*)?)(?P<pitchname>[a-zA-Z]+[',]*)(\d+\.*)?")
++    re_note = re.compile(r"(?P<beamstart>(\[\s*)?)(?P<chordstart>(\<\s*)?)(?P<pitchname>[a-zA-Z]+[',]*)(\d+\.*)?")
+     i = 0
+     re_list = re_white, re_clef_quoted, re_clef, re_key, re_times, re_time, re_note
+     while 1:
+diff -rupN solfege-3.23.4.old/solfege/osutils.py solfege-3.23.4/solfege/osutils.py
+--- solfege-3.23.4.old/solfege/osutils.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/osutils.py	2025-08-11 20:23:51.389025141 +0200
+@@ -97,7 +97,7 @@ class BinaryForMediaPlayerException(Bina
+ 
+ 
+ class BinaryForMediaConvertorException(BinaryBaseException):
+-    r = re.compile("app/(?P<from>[a-z0-9]+)_to_(?P<to>[a-z0-9]+)_cmd")
++    r = re.compile(r"app/(?P<from>[a-z0-9]+)_to_(?P<to>[a-z0-9]+)_cmd")
+ 
+     def __init__(self, varname, binary, exception):
+         BinaryBaseException.__init__(self, binary, exception)
+@@ -208,7 +208,7 @@ def find_csound_executables():
+     """
+     Return a list of possible csound executables.
+     Currently we return the name of the csound binary found as
+-    %PROGRAMFILES%\csound\bin\csound.exe
++    %PROGRAMFILES%\\csound\\bin\\csound.exe
+     """
+     retval = find_progs(('csound.exe', 'csound'))
+     if sys.platform == 'win32':
+diff -rupN solfege-3.23.4.old/solfege/utils.py solfege-3.23.4/solfege/utils.py
+--- solfege-3.23.4.old/solfege/utils.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/utils.py	2025-08-11 20:24:22.635987714 +0200
+@@ -213,7 +213,7 @@ def pitches_in_key(tonic, keytype, lowes
+ 
+ 
+ def un_escape_url_string(s):
+-    r = re.compile("(%([0-9A-F][0-9A-F]))")
++    r = re.compile(r"(%([0-9A-F][0-9A-F]))")
+ 
+     def f(m):
+         return chr(eval("0x%s" % m.groups()[1]))
+diff -rupN solfege-3.23.4.old/solfege/winlang.py solfege-3.23.4/solfege/winlang.py
+--- solfege-3.23.4.old/solfege/winlang.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/winlang.py	2025-08-11 20:25:03.572660634 +0200
+@@ -82,7 +82,7 @@ def _pre_3_11_win32_get_langenviron():
+         # we get here for example when the file does not exist
+         return None
+     if s:
+-        r = re.compile("set LANGUAGE=(?P<lang>.*)")
++        r = re.compile(r"set LANGUAGE=(?P<lang>.*)")
+         for line in s.split("\n"):
+             m = r.match(line)
+             if m:
+diff -rupN solfege-3.23.4.old/tools/buildutil.py solfege-3.23.4/tools/buildutil.py
+--- solfege-3.23.4.old/tools/buildutil.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/tools/buildutil.py	2025-08-11 20:25:54.549662143 +0200
+@@ -54,7 +54,7 @@ def create_manpage():
+     options = "\n".join(v)
+     # This option is so long that it messes with the columns,
+     # and it confuses txt2man.
+-    options = re.sub('--disable-exception-handler\s*',
++    options = re.sub(r'--disable-exception-handler\s*',
+                      '--disable-exception-handler  ', options)
+     with open("solfege.1.txt", "r") as f:
+         s = f.read().replace('XXOPTIONS', options)
+diff -rupN solfege-3.23.4.old/tools/create_depgraph.py solfege-3.23.4/tools/create_depgraph.py
+--- solfege-3.23.4.old/tools/create_depgraph.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/tools/create_depgraph.py	2025-08-11 20:26:37.035376688 +0200
+@@ -34,12 +34,12 @@ class ModuleInfo(object):
+         self.m_usage = set()
+ 
+ # import os, sys, solfege.mpd
+-re2 = re.compile("^(?P<imp>import)\s+(?P<modulelist>((\w[\.\w]+,\s*)*)\w[\.\w]+)$")
++re2 = re.compile(r"^(?P<imp>import)\s+(?P<modulelist>((\w[\.\w]+,\s*)*)\w[\.\w]+)$")
+ # import solfege.ElementTree as et
+-re3 = re.compile("^(?P<imp>import)\s+(?P<module>\w[\.\w]+)\s+as\s+(?P<asmodule>\w+)")
+-re5 = re.compile("^from\s+(?P<module>\w[\.\w]+)\s+import\s+(?P<imodule>\w[\.\w]+)\s+as\s+(?P<asmodule>\w[\.\w]+)$")
+-re6 = re.compile("^from\s+(?P<module>solfege(\.\w+)*)\s+import\s+((?P<modulelist>((\w[\.\w]+,\s*)*)\w[\.\w]+)|\*)$")
+-re_comma = re.compile(",\s*")
++re3 = re.compile(r"^(?P<imp>import)\s+(?P<module>\w[\.\w]+)\s+as\s+(?P<asmodule>\w+)")
++re5 = re.compile(r"^from\s+(?P<module>\w[\.\w]+)\s+import\s+(?P<imodule>\w[\.\w]+)\s+as\s+(?P<asmodule>\w[\.\w]+)$")
++re6 = re.compile(r"^from\s+(?P<module>solfege(\.\w+)*)\s+import\s+((?P<modulelist>((\w[\.\w]+,\s*)*)\w[\.\w]+)|\*)$")
++re_comma = re.compile(r",\s*")
+ 
+ 
+ def test_re():
+diff -rupN solfege-3.23.4.old/tools/find_prefixed_strings.py solfege-3.23.4/tools/find_prefixed_strings.py
+--- solfege-3.23.4.old/tools/find_prefixed_strings.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/tools/find_prefixed_strings.py	2025-08-11 20:27:17.955538345 +0200
+@@ -21,8 +21,8 @@ parser.add_option("-f", action="store_tr
+ 
+ (options, args) = parser.parse_args()
+ 
+-r = re.compile("\"%s\|(?P<prefix>.*?)\"" % options.string_prefix)
+-prefix_re = re.compile("\s*name\s*=\s*.*?\"(?P<prefix>.*?)\|.*?\"")
++r = re.compile(r"\"%s\|(?P<prefix>.*?)\"" % options.string_prefix)
++prefix_re = re.compile(r"\s*name\s*=\s*.*?\"(?P<prefix>.*?)\|.*?\"")
+ db = {}
+ 
+ 
+diff -rupN solfege-3.23.4.old/tools/gen_regression_lessonfiles.py solfege-3.23.4/tools/gen_regression_lessonfiles.py
+--- solfege-3.23.4.old/tools/gen_regression_lessonfiles.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/tools/gen_regression_lessonfiles.py	2025-08-11 20:28:22.134903910 +0200
+@@ -69,7 +69,7 @@ errors = {
+         "c4 { jo ",
+         "c4 >d < e }",
+         "c4 <d < e }",
+-        "\clef xxx c4 d e }",
++        r"\clef xxx c4 d e }",
+     ],
+     'chord': [
+         "c > e g",
+@@ -84,8 +84,8 @@ errors = {
+         "\\addvoice{ c \ne g}\n\\staff{ x\n y x}",
+         r"clkfja slkdfj",
+         r"\staff{ \clef ERROR c",
+-        "\\staff{ \clef ERROR \n c",
+-        "\\staff{ \clef \n ERROR \n c",
++        r"\\staff{ \clef ERROR \n c",
++        r"\\staff{ \clef \n ERROR \n c",
+         r"\staff{ c < }",
+         r"}",
+     ],
+diff -rupN solfege-3.23.4.old/tools/lf2lb.py solfege-3.23.4/tools/lf2lb.py
+--- solfege-3.23.4.old/tools/lf2lb.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/tools/lf2lb.py	2025-08-11 20:28:47.265305083 +0200
+@@ -30,8 +30,8 @@ def tex_subst(s):
+ 
+ 
+ def so2ly(s, musicformat):
+-    re_staff = re.compile("\\\\staff")
+-    re_addvoice = re.compile("\\\\addvoice")
++    re_staff = re.compile(r"\\staff")
++    re_addvoice = re.compile(r"\\addvoice")
+     v = re_staff.split(s)
+     v = filter(lambda i: i != "", v)
+     v = map(lambda s, r=re_addvoice: r.split(s), v)
+diff -rupN solfege-3.23.4.old/tools/mk-classhier-graph.py solfege-3.23.4/tools/mk-classhier-graph.py
+--- solfege-3.23.4.old/tools/mk-classhier-graph.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/tools/mk-classhier-graph.py	2025-08-11 20:29:19.515746573 +0200
+@@ -76,7 +76,7 @@ class ClassDb(object):
+         print >> f, "}"
+         f.close()
+ 
+-class_re = re.compile("""
++class_re = re.compile(r"""
+    (?P<all>class\s*
+     (?P<classname>[a-zA-Z]\w*)
+     (\(
+diff -rupN solfege-3.23.4.old/tools/po-file-checks.py solfege-3.23.4/tools/po-file-checks.py
+--- solfege-3.23.4.old/tools/po-file-checks.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/tools/po-file-checks.py	2025-08-11 20:30:49.491788436 +0200
+@@ -19,8 +19,8 @@ class Entry(object):
+ 
+     def __init__(self, s):
+         s = s.strip("\n")
+-        msgid_re = re.compile('(msgid|#~ msgid) "(?P<id>.*?)"\s*$')
+-        msgstr_re = re.compile('(msgstr|#\~ msgstr) "(?P<str>.*?)"\s*$')
++        msgid_re = re.compile(r'(msgid|#~ msgid) "(?P<id>.*?)"\s*$')
++        msgstr_re = re.compile(r'(msgstr|#\~ msgstr) "(?P<str>.*?)"\s*$')
+         data = {'comment': [], 'msgid': [], 'msgstr': []}
+         mode = None
+         self.m_status = 'translated'
+@@ -110,7 +110,7 @@ msgstr "Il file \"%s\"."
+         self.assertEqual(e.get_msgstr(), "Il file \"%s\".")
+ 
+ def sniff_po_encoding(filename):
+-    r = re.compile(b".*Content-Type: text/plain; charset=(.*?)\\\\n\"")
++    r = re.compile(br".*Content-Type: text/plain; charset=(.*?)\\n\"")
+     with open(filename, "br") as f:
+         for line in f.readlines():
+             m = r.match(line)
+@@ -155,9 +155,9 @@ def find_string_formatting(s):
+     Make a list with all string formatting operators in the string except
+     named operators, like %(name)s
+     """
+-    s = re.sub("%\s*%", "", s)
+-    #r = re.compile("\%(\(\w+\))?(\.?\d+)?\w")
+-    r = re.compile("\%(\.?\d+)?[^\s\(]")
++    s = re.sub(r"%\s*%", "", s)
++    #r = re.compile(r"\%(\(\w+\))?(\.?\d+)?\w")
++    r = re.compile(r"\%(\.?\d+)?[^\s\(]")
+     start = 0
+     m = r.search(s[start:])
+     ret = []
+@@ -169,8 +169,8 @@ def find_string_formatting(s):
+ 
+ 
+ def find_string_formatting_mapping_keys(s):
+-    s = re.sub("%\s*%", "", s)
+-    r = re.compile("\%(\((?P<name>\w*)\))?(?P<notname>(\.?\d+)?[^\s\(])")
++    s = re.sub(r"%\s*%", "", s)
++    r = re.compile(r"\%(\((?P<name>\w*)\))?(?P<notname>(\.?\d+)?[^\s\(])")
+     start = 0
+     m = r.search(s[start:])
+     ret = []
+diff -rupN solfege-3.23.4.old/tools/screenshot.py solfege-3.23.4/tools/screenshot.py
+--- solfege-3.23.4.old/tools/screenshot.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/tools/screenshot.py	2025-08-11 20:31:18.787907632 +0200
+@@ -14,7 +14,7 @@ def run(cmd):
+ 
+ def get_image_dim(fn):
+     output = Popen(["file", fn], stdout=PIPE).communicate()[0]
+-    r = re.compile("(\d+)\s*x+\s*(\d+)")
++    r = re.compile(r"(\d+)\s*x+\s*(\d+)")
+     m = r.search(output)
+     if m:
+         return int(m.groups()[0]), int(m.groups()[1])
+diff -rupN solfege-3.23.4.old/tools/update-copyright.py solfege-3.23.4/tools/update-copyright.py
+--- solfege-3.23.4.old/tools/update-copyright.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/tools/update-copyright.py	2025-08-11 20:31:43.032404744 +0200
+@@ -4,7 +4,7 @@ import os
+ import sys
+ import re
+ 
+-r = re.compile("(?P<left>\# Copyright \(C\) )(?P<years>(\d\d\d\d,\s)*(\d\d\d\d))(?P<right>\s+Tom Cato Amundsen)")
++r = re.compile(r"(?P<left>\# Copyright \(C\) )(?P<years>(\d\d\d\d,\s)*(\d\d\d\d))(?P<right>\s+Tom Cato Amundsen)")
+ 
+ 
+ def do_file(filename):

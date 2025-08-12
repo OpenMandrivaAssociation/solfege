@@ -1,0 +1,14 @@
+diff -rupN solfege-3.23.4.old/solfege/mpd/engravers.py solfege-3.23.4/solfege/mpd/engravers.py
+--- solfege-3.23.4.old/solfege/mpd/engravers.py	2016-06-24 22:18:29.000000000 +0200
++++ solfege-3.23.4/solfege/mpd/engravers.py	2025-08-11 20:37:20.193006471 +0200
+@@ -690,8 +690,9 @@ class RestEngraver(Engraver):
+             int(staff_yoffset - my + dim.linespacing * self.m_ypos / 2 - 4))
+         ct.paint()
+         for n in range(self.m_dots):
+-            ims = cairo.ImageSurface.create_from_png(fetadir + '/feta20-dots-dot.xpm')
++            ims = cairo.ImageSurface.create_from_png(fetadir + '/feta20-dots-dot.png')
+             ct.set_source_surface(
++				ims,
+                 int(self.m_xpos + dim.xshift * (1.5 + n / 2.0)),
+                 -3 + staff_yoffset + dim.linespacing * self.m_ypos / 2)
+             ct.paint()
