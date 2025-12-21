@@ -14,6 +14,11 @@ Patch5:		solfege-3.23.4-texinfo-non-utf8-input-fix.patch
 Patch6:		solfege-3.23.4-fix-invalid-python-escape-sequences.patch
 Patch7:		solfege-3.23.4-dont-decode-strings.patch
 Patch8:		solfege-3.23.4-fix-mpd-engravers.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	desktop-file-utils
 BuildRequires:	docbook-style-xsl
 BuildRequires:	gettext
